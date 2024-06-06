@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  nestapp:
+    build: ./
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.develoment
+    depends_on:
+      - postgresdb
+
+  postgresdb:
+    image: "postgres"
+    container_name: postgres_db1
+    restart: always
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: sportivo
+      POSTGRES_DB: new_project_m4
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env.develoment
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: marcosgomez48149@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgresdb
+
+
+volumes:
+  pgdata:
