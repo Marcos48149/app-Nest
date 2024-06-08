@@ -2,7 +2,7 @@ import { BadRequestException, Controller, FileTypeValidator, MaxFileSizeValidato
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FileUploadService } from './file-upload.service';
 import { AuthGuard } from 'src/auth/authGuard/guard';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { Roles } from 'src/roles/roles';
 import { RoleEnum } from 'src/roles/roles.enum';
 import { RolesGuard } from 'src/auth/authGuard/roles.guards';
@@ -16,6 +16,7 @@ constructor( private readonly fileService: FileUploadService){}
     @Roles(RoleEnum.Admin)
     @UseGuards(AuthGuard,RolesGuard)
     @UseInterceptors(FileInterceptor('file'))
+    @ApiConsumes('multipart/form-data')
     async updateImage(@Param('id') productId: string, @UploadedFile(
       new ParseFilePipe({
         validators: [

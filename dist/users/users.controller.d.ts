@@ -7,7 +7,7 @@ export declare class UsersController {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -18,7 +18,7 @@ export declare class UsersController {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -30,7 +30,7 @@ export declare class UsersController {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -41,7 +41,7 @@ export declare class UsersController {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;

@@ -78,9 +78,7 @@ export class ProductRepository {
   }
 
   async createProduct(product) {
-    //const id = this.productRepo. + 1;
-    /* this.productRepo = { ...this.productRepo, {product }}
-    return id; */
+  
     const category = await this.categoryRepo.findOne({ where: { name: product.category } })
 
     const newproducts = new Products();
@@ -107,7 +105,7 @@ export class ProductRepository {
     await this.productRepo.update(id, datos)
     const updateProduct = await this.productRepo.find({where:{id:id}})
     console.log(updateProduct)
-    if(!updateProduct){return 'no existe'}
+    if(!updateProduct){throw new NotFoundException('no existe') }
     
    
     return updateProduct;

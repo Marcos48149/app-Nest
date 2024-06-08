@@ -2,6 +2,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail, IsEmpty, IsNotEmpty, IsNumber,  IsOptional,
+  IsPhoneNumber,
   IsString, Length, Matches, Max, Validate,
   
 } from 'class-validator';
@@ -13,7 +14,7 @@ import { PasswordConfirmation } from 'src/decorators/confirmPassword';
 export class UserDto {
 
   @IsOptional()
-  id?: number;
+  id?: string;
 
   @ApiProperty({
     description: 'Este es el nombre del usuario',
@@ -29,7 +30,7 @@ export class UserDto {
   }) 
   @IsNotEmpty()
   @IsString()
-  @Length(3, 80)
+  @Length(3, 50)
   @Matches(/^[a-zA-Z ]+$/)
   name: string;
 
@@ -70,9 +71,8 @@ export class UserDto {
     example: 1123456789,
   })
   @IsNotEmpty()
-  @IsNumber()
-  @Max(9999999999) 
-  phone: number;
+  @IsPhoneNumber(null, { message: 'Número de celular inválido' })
+  phone: string;
 
   @ApiProperty({
     description: 'Esta es el pais',

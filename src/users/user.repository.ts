@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserDto } from "src/DTO/userDTO";
 import { Users } from "src/entities/user.entity";
 import { Repository } from "typeorm";
 
@@ -46,7 +47,7 @@ export class UserRepository {
     }
 
 
-    async postUser(user: Users) {
+    async postUser(user: UserDto) {
         const newUser = await this.UserRepository.save(user)
         const dbUser = await this.UserRepository.findOneBy({ id: user.id })
 

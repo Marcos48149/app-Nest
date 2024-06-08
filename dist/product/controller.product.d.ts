@@ -7,7 +7,7 @@ export declare class ProductController {
     addProduct(): Promise<void>;
     getProductId(id: string): Promise<import("../entities/product.entity").Products>;
     createProduct(product: ProductDto): Promise<string>;
-    updateProduct(id: number, datos: Partial<ProductDto>): Promise<import("../entities/product.entity").Products[] | "no existe">;
+    updateProduct(id: number, datos: Partial<ProductDto>): Promise<import("../entities/product.entity").Products[]>;
     deleteProduct(id: number): Promise<{
         message: string;
         deletedProduct: import("typeorm").DeleteResult;

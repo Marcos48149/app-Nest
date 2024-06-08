@@ -11,18 +11,16 @@ export class AuthService {
     ){}
 
   async singIn(email, password){
-        //console.log(email)
-        if(!email || !password)return 'datos incompletos'
-
-       const userEmail=  await this.usersRepo.getUserEmail(email)
-        
-        if(!userEmail){throw new NotFoundException('email no encontrado')}
-
-        const user = await bcrypt.compare(password , userEmail.password)
-        if (!user){new BadRequestException('credenciales incorrectas')}
+      if(!email || !password)return 'datos incompletos'
+      
+      const userEmail=  await this.usersRepo.getUserEmail(email)
+      if(!userEmail){throw new NotFoundException('email no encontrado')}
+      
+      const user = await bcrypt.compare(password , userEmail.password)
+      if (!user){throw new BadRequestException('credenciales incorrectas')}
 
         const userPayload= {
-            //sub: userEmail.id,
+
             id: userEmail.id,
             email: userEmail.email,
             isAdmin: userEmail.isAdmin

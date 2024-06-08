@@ -96,7 +96,7 @@ let ProductRepository = class ProductRepository {
         const updateProduct = await this.productRepo.find({ where: { id: id } });
         console.log(updateProduct);
         if (!updateProduct) {
-            return 'no existe';
+            throw new common_1.NotFoundException('no existe');
         }
         return updateProduct;
     }

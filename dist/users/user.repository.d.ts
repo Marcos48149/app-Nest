@@ -1,3 +1,4 @@
+import { UserDto } from "src/DTO/userDTO";
 import { Users } from "src/entities/user.entity";
 import { Repository } from "typeorm";
 export declare class UserRepository {
@@ -7,7 +8,7 @@ export declare class UserRepository {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -18,7 +19,7 @@ export declare class UserRepository {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -26,11 +27,11 @@ export declare class UserRepository {
         orders_id: import("../entities/order.entity").Orders[];
     }>;
     createAdmin(id: any, user: any): Promise<string>;
-    postUser(user: Users): Promise<{
+    postUser(user: UserDto): Promise<{
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -41,7 +42,7 @@ export declare class UserRepository {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;
@@ -52,7 +53,7 @@ export declare class UserRepository {
         id: string;
         name: string;
         email: string;
-        phone: number;
+        phone: string;
         country: string;
         address: string;
         city: string;

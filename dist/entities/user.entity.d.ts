@@ -4,7 +4,7 @@ export declare class Users {
     name: string;
     email: string;
     password: string;
-    phone: number;
+    phone: string;
     country: string;
     address: string;
     city: string;

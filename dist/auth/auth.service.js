@@ -28,7 +28,7 @@ let AuthService = class AuthService {
         }
         const user = await bcrypt.compare(password, userEmail.password);
         if (!user) {
-            new common_1.BadRequestException('credenciales incorrectas');
+            throw new common_1.BadRequestException('credenciales incorrectas');
         }
         const userPayload = {
             id: userEmail.id,

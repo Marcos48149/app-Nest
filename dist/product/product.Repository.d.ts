@@ -9,7 +9,7 @@ export declare class ProductRepository {
     addProducts(): Promise<void>;
     getProductId(id: string): Promise<Products>;
     createProduct(product: any): Promise<string>;
-    updateProduct(id: any, datos: any): Promise<Products[] | "no existe">;
+    updateProduct(id: any, datos: any): Promise<Products[]>;
     deleteProduct(id: any): Promise<{
         message: string;
         deletedProduct: import("typeorm").DeleteResult;

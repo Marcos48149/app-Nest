@@ -17,8 +17,8 @@ export class Users {
     password:string
    
 
-    @Column( { type: 'bigint'})
-    phone: number
+    @Column()
+    phone: string
 
     @Column({length: 50})
     country:string

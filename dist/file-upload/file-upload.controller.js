@@ -37,6 +37,7 @@ __decorate([
     (0, roles_1.Roles)(roles_enum_1.RoleEnum.Admin),
     (0, common_1.UseGuards)(guard_1.AuthGuard, roles_guards_1.RolesGuard),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file')),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.UploadedFile)(new common_1.ParseFilePipe({
         validators: [

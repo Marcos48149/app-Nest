@@ -18,7 +18,7 @@ class UserDto {
 exports.UserDto = UserDto;
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], UserDto.prototype, "id", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({
@@ -36,7 +36,7 @@ __decorate([
     }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(3, 80),
+    (0, class_validator_1.Length)(3, 50),
     (0, class_validator_1.Matches)(/^[a-zA-Z ]+$/),
     __metadata("design:type", String)
 ], UserDto.prototype, "name", void 0);
@@ -78,9 +78,8 @@ __decorate([
         example: 1123456789,
     }),
     (0, class_validator_1.IsNotEmpty)(),
-    (0, class_validator_1.IsNumber)(),
-    (0, class_validator_1.Max)(9999999999),
-    __metadata("design:type", Number)
+    (0, class_validator_1.IsPhoneNumber)(null, { message: 'Número de celular inválido' }),
+    __metadata("design:type", String)
 ], UserDto.prototype, "phone", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({

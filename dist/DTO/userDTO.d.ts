@@ -1,11 +1,11 @@
 export declare class UserDto {
-    id?: number;
+    id?: string;
     email: string;
     name: string;
     password: string;
     confirmPassword: string;
     address: string;
-    phone: number;
+    phone: string;
     country?: string;
     city?: string;
     isAdmin?: boolean;

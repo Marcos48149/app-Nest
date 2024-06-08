@@ -6,7 +6,7 @@ export declare class ProductService {
     addProduct(): Promise<void>;
     getProductId(id: any): Promise<import("../entities/product.entity").Products>;
     createProduct(product: any): Promise<string>;
-    updateProduct(id: any, datos: any): Promise<import("../entities/product.entity").Products[] | "no existe">;
+    updateProduct(id: any, datos: any): Promise<import("../entities/product.entity").Products[]>;
     deleteProduct(id: any): Promise<{
         message: string;
         deletedProduct: import("typeorm").DeleteResult;
