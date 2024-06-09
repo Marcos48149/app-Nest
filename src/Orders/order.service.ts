@@ -13,4 +13,8 @@ export class OrderService {
     async getOrder(id: string) {
         return this.orderRepository.getOrder(id);
     }
+
+    async deleteOrder(id){
+        return this.orderRepository.deleteOrder(id);
+    }
 }

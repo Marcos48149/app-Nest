@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Orders } from 'src/entities/order.entity';
 import { OrderService } from './order.service';
@@ -30,5 +30,10 @@ export class OrderController {
         return await this.orderservice.addOrder(userId, product)
 
     }
+    @Delete(':id')
+    async deleteOrder(@Param('id') id: string){
+        return this.orderservice.deleteOrder(id)
+    }
+    
     
 }

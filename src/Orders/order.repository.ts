@@ -70,7 +70,7 @@ export class OrderRepository {
             relations: {
                 orderDetails: { products: true },
             },
-        })
+        });
         if (!order) {
             return `orden con id ${id} no encontrada`
         }
@@ -78,4 +78,45 @@ export class OrderRepository {
         return order;
 
     }
+
+    async deleteOrder(id): Promise<string> {
+        
+        const order = await this.orderRepository.findOne({
+            where: { id },
+            relations: { orderDetails:{products: true}}
+        });
+        
+        if (!order) {
+            throw new Error('order no encontrada');
+            }
+            
+            
+            const productOrder = order.orderDetails.products;
+            console.log(productOrder)
+            
+     
+        const products = await this.productRepository.find();
+    
+        // Actualizar el stock de los productos
+        const updateStockPromises = products.map(async (elem) => {
+            const matchingProduct = productOrder.find(prod => prod.id === elem.id);
+            if (matchingProduct) {
+                await this.productRepository.update(
+                    { id: elem.id },
+                    { stock: elem.stock + 1 }
+                );
+            }
+        });
+    
+        // Esperar a que todas las promesas de actualización de stock se completen
+        await Promise.all(updateStockPromises);
+    
+        // Eliminar la orden y sus detalles
+        await this.detailsOrderRepository.delete({ order: { id } });
+        await this.orderRepository.delete(id);
+       
+        console.log(productOrder,'final')
+        return 'Order eliminada';
+    }
+    
 }
