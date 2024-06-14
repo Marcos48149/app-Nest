@@ -4,7 +4,7 @@ import { Orders } from "src/entities/order.entity";
 import { OrderDetails } from "src/entities/orderDetails";
 import { Products } from "src/entities/product.entity";
 import { Users } from "src/entities/user.entity";
-import { Repository } from "typeorm";
+import { MoreThan, Repository } from "typeorm";
 
 
 @Injectable()
@@ -25,19 +25,16 @@ export class OrderRepository {
 
         let total = 0;
 
-        const order = new Orders()
-        order.Date = new Date()
-        order.user_id = userId
-        const newOrder = await this.orderRepository.save(order)
-        console.log(newOrder)
-
-
         const productArray = await Promise.all(
             product.map(async (elem) => {
-                const products = await this.productRepository.findOneBy({ id: elem.id })
-                if (!products) { return `producto con id ${elem.id} no encontrado` }
+                const products = await this.productRepository.findOneBy(
+                    {
+                        id: elem.id,
+                        stock: MoreThan(0)
+                    }
+                )
+                if (!products || undefined) { throw new NotFoundException(`producto con id: -> ${elem.id} <- no encontrado o sin stock`) }
                 total += Number(products.price)
-                // console.log(products.price)
 
                 //actualizo el stock
                 await this.productRepository.update(
@@ -47,6 +44,13 @@ export class OrderRepository {
                 return products;
             })
         )
+
+        const order = new Orders()
+        order.Date = new Date()
+        order.user_id = userId
+        const newOrder = await this.orderRepository.save(order)
+        console.log(newOrder)
+
 
         const detailsOrder = new OrderDetails();
         detailsOrder.price = Number(Number(total).toFixed(2))
@@ -68,6 +72,7 @@ export class OrderRepository {
         const order = this.orderRepository.findOne({
             where: { id },
             relations: {
+
                 orderDetails: { products: true },
             },
         });
@@ -80,23 +85,23 @@ export class OrderRepository {
     }
 
     async deleteOrder(id): Promise<string> {
-        
+
         const order = await this.orderRepository.findOne({
             where: { id },
-            relations: { orderDetails:{products: true}}
+            relations: { orderDetails: { products: true } }
         });
-        
+
         if (!order) {
             throw new Error('order no encontrada');
-            }
-            
-            
-            const productOrder = order.orderDetails.products;
-            console.log(productOrder)
-            
-     
+        }
+
+
+        const productOrder = order.orderDetails.products;
+        console.log(productOrder)
+
+
         const products = await this.productRepository.find();
-    
+
         // Actualizar el stock de los productos
         const updateStockPromises = products.map(async (elem) => {
             const matchingProduct = productOrder.find(prod => prod.id === elem.id);
@@ -107,16 +112,16 @@ export class OrderRepository {
                 );
             }
         });
-    
+
         // Esperar a que todas las promesas de actualización de stock se completen
         await Promise.all(updateStockPromises);
-    
+
         // Eliminar la orden y sus detalles
         await this.detailsOrderRepository.delete({ order: { id } });
         await this.orderRepository.delete(id);
-       
-        console.log(productOrder,'final')
+
+        console.log(productOrder, 'final')
         return 'Order eliminada';
     }
-    
+
 }

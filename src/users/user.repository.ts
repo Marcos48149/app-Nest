@@ -61,6 +61,7 @@ export class UserRepository {
     async updateUser(id: string, user) {
         await this.UserRepository.update(id, user)
         const update = await this.UserRepository.findOneBy({ id })
+       
 
         const { password, ...noPassword } = update
         return noPassword;

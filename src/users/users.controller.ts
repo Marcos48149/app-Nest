@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, Param, ParseUUIDPipe, Post, Put, Query, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from 'src/interface/User';
 import { AuthGuard } from 'src/auth/authGuard/guard';
@@ -45,12 +45,17 @@ export class UsersController {
 
     @Put(":id")
     @UseGuards(AuthGuard)
-    async updateUser(@Param("id") id: number, @Body() datos: Partial<UserDto>) {
+    async updateUser(@Param("id", ParseUUIDPipe) id: string, @Body() datos: Partial<UserDto>, @Request() req) {
+        if (req.userId !== id) {
+            throw new UnauthorizedException('No puedes actualizar los datos de otra cuenta');
+          }
         return this.serviceUser.updateUser(id, datos)
+
     }
 
     @Delete(":id")
-    @UseGuards(AuthGuard)
+    @Roles(RoleEnum.Admin)
+    @UseGuards(AuthGuard, RolesGuard)
     async deleteUser(@Param("id", ParseUUIDPipe) id: number) {
         return this.serviceUser.deleteUser(id)
     }

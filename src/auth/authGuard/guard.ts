@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate {
       throw new BadRequestException('no se ha enviado el token');
     }
 
-    const token = tokenAutorizathion.split(' ')[1] // consultar como validar cuando se trabaja con swagger split(' ')[1] 
+    const token = tokenAutorizathion.split(' ')[1] 
    
     if (!token) {
       throw new BadRequestException('No se ha enviado el token o token incorrecto');
@@ -30,11 +30,11 @@ export class AuthGuard implements CanActivate {
       payload.iat = new Date(payload.iat * 1000)
       payload.exp = new Date(payload.exp * 1000)
       payload.roles = payload.isAdmin ? [RoleEnum.Admin] : [RoleEnum.User]  
+      request.userId = payload.id; 
       request.payload = payload;
 
-      console.log(payload.isAdmin, 'guard')
-      //if (request.payload.roles[0] !== Role.Admin) { throw new BadRequestException('no eres administrador ') }
-
+      //console.log(payload.isAdmin, 'guard')
+     
       return true;
 
     } catch (error) {

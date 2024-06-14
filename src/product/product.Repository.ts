@@ -22,7 +22,8 @@ export class ProductRepository {
       take: limit,
     })
 
-    if (!producList) { throw new NotFoundException('no hay usuario') }
+    if (!producList) { throw new NotFoundException('no hay productos') }
+    //const producarray = producList.filter( elmen=> elmen.stock != 0 )
     return producList;
 
   }

@@ -32,6 +32,9 @@ export class Users {
     @Column({default: false})
     isAdmin: boolean
 
+    @Column()
+    birthdate: string
+
     @OneToMany(()=> Orders, order => order.user_id)
     @JoinColumn()
     orders_id: Orders[] //Relación 1:N con orders.

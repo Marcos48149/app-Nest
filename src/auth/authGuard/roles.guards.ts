@@ -19,12 +19,10 @@ export class RolesGuard implements CanActivate {
     const user= request.payload
     const hasRole= ()=> requiredRoles.some((role) => user.roles.includes(role) );
 
-    
-    console.log(request.payload ,'user payload')
-    
+    //console.log(request.payload ,'user payload')
     
     const valid= user && user.roles && hasRole();
-    console.log(valid)
+    
     if(!valid) throw new ForbiddenException(`no tienes permisos `)
    
    return valid;
